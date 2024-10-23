@@ -1,23 +1,82 @@
 #include <iostream>
 #include <windows.h>
 #include <cstdio>
+#include <vector>
+#include <random>
+#include <ctime>
+
+#include "includes/Vec2d.h"
 
 using namespace std;
 
+void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int score, HANDLE stdHandle)
+{
+    SetConsoleCursorPosition(stdHandle, {0, 0});
+
+    cout << '+';
+    for (int i = 1; i < maxPos.x + 1; i++)
+    {
+        cout << '-';
+    }
+    cout << '+' << endl;
+    for (int y = minPos.y; y < maxPos.y + 1; y++)
+    {
+        cout << '|';
+        for (int x = minPos.x; x < maxPos.x + 1; x++)
+        {
+            if (x == playerPos.x && y == playerPos.y)
+            {
+                SetConsoleTextAttribute(stdHandle, 0x04); // sets color for next print to console
+                cout << '#';
+                SetConsoleTextAttribute(stdHandle, 0x0F); // returns to normal
+            }
+            else if (x == pointPos.x && y == pointPos.y)
+            {
+                SetConsoleTextAttribute(stdHandle, 0x02); // sets color for next print to console
+                cout << 'X';
+                SetConsoleTextAttribute(stdHandle, 0x0F); // returns to normal
+            }
+            else
+            {
+                cout << ' ';
+            }
+        }
+        cout << '|' << endl;
+    }
+    cout << '+';
+    for (int i = 1; i < maxPos.x + 1; i++)
+    {
+        cout << '-';
+    }
+    cout << '+' << endl;
+    cout << "[ " << playerPos.x << " : " << playerPos.y << " ]" << endl;
+    cout << "[ Score: " << score << "]" << endl;
+}
+
 int main()
 {
+    srand(time(NULL));
+
     bool isRunning = true;
+    HANDLE stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    CONSOLE_CURSOR_INFO ci;
+    GetConsoleCursorInfo(stdHandle, &ci);
+    //ci.bVisible = 0;
+    SetConsoleCursorInfo(stdHandle, &ci);
 
     int moveDist = 1; // how far each move lets you go
 
-    int minPosX = 1;
-    int minPosY = 1;
+    struct Vec2d pointCurPos = {10, 10};
 
-    int maxPosX = 10;
-    int maxPosY = 10;
+    struct Vec2d minPos = {1, 1};
+    struct Vec2d maxPos = {40, 20};
 
-    int playerPosX = 1;
-    int playerPosY = 1;
+    struct Vec2d playerPos = {1, 1};
+
+    int score = 0;
+
+    printScene(minPos, maxPos, playerPos, pointCurPos, score, stdHandle); // display the first scene
 
     while (isRunning) // game loop
     {
@@ -28,48 +87,30 @@ int main()
                 switch (i) // switch is faster than if statment
                 {
                 case 1: // left
-                    playerPosX = max(playerPosX - moveDist, minPosX);
+                    playerPos.x = max(playerPos.x - moveDist, minPos.x);
                     break;
                 case 2: // up
-                    playerPosY = max(playerPosY - moveDist, minPosY);
+                    playerPos.y = max(playerPos.y - moveDist, minPos.y);
                     break;
                 case 3: // right
-                    playerPosX = min(playerPosX + moveDist, maxPosX);
+                    playerPos.x = min(playerPos.x + moveDist, maxPos.x);
                     break;
                 case 4: // down
-                    playerPosY = min(playerPosY + moveDist, maxPosY);
+                    playerPos.y = min(playerPos.y + moveDist, maxPos.y);
                     break;
                 default:
                     break;
                 }
 
-                // something changed so we can bother updating the screen now
-                system("cls"); // clear console
-
-                for (int y = minPosY; y < maxPosY + 1; y++)
+                if ( playerPos.x == pointCurPos.x && playerPos.y == pointCurPos.y )
                 {
-                    for (int x = minPosX; x < maxPosX + 1; x++)
-                    {
-                        if (x == playerPosX && y == playerPosY)
-                        {
-                            cout << '0';
-                        }
-                        else
-                        {
-                            cout << ' ';
-                        }
-                    }
+                    score += 1;
 
-                    cout << '|' << endl;
+                    pointCurPos.x = minPos.x + rand() % (maxPos.x - minPos.x + 1);
+                    pointCurPos.y = minPos.y + rand() % (maxPos.y - minPos.y + 1);
                 }
 
-                for (int i = 1; i < maxPosX + 1; i++)
-                {
-                    cout << '-';
-                }
-                cout << '+' << endl;
-
-                cout << "[ " << playerPosX << " : " << playerPosY << " ]" << endl;
+                printScene(minPos, maxPos, playerPos, pointCurPos, score, stdHandle);
             }
         }
 

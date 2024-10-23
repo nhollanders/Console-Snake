@@ -10,7 +10,7 @@
                 "-O2",
                 "${workspaceFolder}/*.cpp",
                 //"${workspaceFolder}/includes/*.cpp",
-                //"${workspaceFolder}/includes/*.h",
+                "${workspaceFolder}/includes/*.h",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
