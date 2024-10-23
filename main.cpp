@@ -6,52 +6,9 @@
 #include <ctime>
 
 #include "includes/Vec2d.h"
+#include "includes/sceneControl.cpp"
 
 using namespace std;
-
-void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int score, HANDLE stdHandle)
-{
-    SetConsoleCursorPosition(stdHandle, {0, 0});
-
-    cout << '+';
-    for (int i = 1; i < maxPos.x + 1; i++)
-    {
-        cout << '-';
-    }
-    cout << '+' << endl;
-    for (int y = minPos.y; y < maxPos.y + 1; y++)
-    {
-        cout << '|';
-        for (int x = minPos.x; x < maxPos.x + 1; x++)
-        {
-            if (x == playerPos.x && y == playerPos.y)
-            {
-                SetConsoleTextAttribute(stdHandle, 0x04); // sets color for next print to console
-                cout << '#';
-                SetConsoleTextAttribute(stdHandle, 0x0F); // returns to normal
-            }
-            else if (x == pointPos.x && y == pointPos.y)
-            {
-                SetConsoleTextAttribute(stdHandle, 0x02); // sets color for next print to console
-                cout << 'X';
-                SetConsoleTextAttribute(stdHandle, 0x0F); // returns to normal
-            }
-            else
-            {
-                cout << ' ';
-            }
-        }
-        cout << '|' << endl;
-    }
-    cout << '+';
-    for (int i = 1; i < maxPos.x + 1; i++)
-    {
-        cout << '-';
-    }
-    cout << '+' << endl;
-    cout << "[ " << playerPos.x << " : " << playerPos.y << " ]" << endl;
-    cout << "[ Score: " << score << "]" << endl;
-}
 
 int main()
 {
@@ -62,7 +19,7 @@ int main()
 
     CONSOLE_CURSOR_INFO ci;
     GetConsoleCursorInfo(stdHandle, &ci);
-    //ci.bVisible = 0;
+    ci.bVisible = false;
     SetConsoleCursorInfo(stdHandle, &ci);
 
     int moveDist = 1; // how far each move lets you go
@@ -80,6 +37,11 @@ int main()
 
     while (isRunning) // game loop
     {
+        if (!IsProgramFocused())
+        {
+            continue;
+        }
+
         for (int i = 1; i < 5; i++) // key input for all the arrow keys
         {
             if (GetAsyncKeyState(i+36) & 0b1)
@@ -105,7 +67,7 @@ int main()
                 if ( playerPos.x == pointCurPos.x && playerPos.y == pointCurPos.y )
                 {
                     score += 1;
-
+                    
                     pointCurPos.x = minPos.x + rand() % (maxPos.x - minPos.x + 1);
                     pointCurPos.y = minPos.y + rand() % (maxPos.y - minPos.y + 1);
                 }
