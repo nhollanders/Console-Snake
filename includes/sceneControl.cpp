@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int score, HANDLE stdHandle)
+void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int score, HANDLE stdHandle) // prints the scene depending on positions of game elements.
 {
     SetConsoleCursorPosition(stdHandle, {0, 0});
 
@@ -48,7 +48,7 @@ void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int
     cout << "[ Score: " << score << "]" << endl;
 }
 
-bool IsProgramFocused()
+bool IsProgramFocused() // true for program in focus, false for not being in focus.
 {
     HWND hWnd = GetForegroundWindow(); 
     if (hWnd == NULL) {

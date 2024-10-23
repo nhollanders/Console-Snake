@@ -84,22 +84,4 @@ int main()
     }
 
     return 0;
-}  
-
-// while (!(GetAsyncKeyState(VK_ESCAPE) & 0b1))
-// {
-//     for (int i = 0; i < 256; i++)
-//     {
-//         if (GetAsyncKeyState(i) & 0b1)
-//         {
-//             if (isupper(i))
-//             {
-//                 cout << (char)i;
-//             }
-//             else if (i == VK_RETURN)
-//             {
-//                 cout << endl;
-//             }
-//         }
-//     }
-// }
+}
