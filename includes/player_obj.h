@@ -18,6 +18,9 @@ class player_obj {
         void setPos(Vec2d vecPar);
         Vec2d getPos();
 
+        void setMoveDist(int dist);
+        int getMoveDist();
+
         Vec2d getNextPos(); // returns the position its planning to move to next
         bool posChanged(); // whether the position has changed or not in the last input update
 

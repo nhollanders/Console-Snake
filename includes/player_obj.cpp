@@ -29,6 +29,16 @@ void player_obj::setPos(Vec2d vecPar) // sets position
     playerPos = vecPar; 
 }
 
+void player_obj::setMoveDist(int dist)
+{
+    moveDist = dist || 1;
+}
+
+int player_obj::getMoveDist()
+{
+    return moveDist;
+}
+
 // next pos handleing //
 
 Vec2d player_obj::getNextPos() // returns nextPos

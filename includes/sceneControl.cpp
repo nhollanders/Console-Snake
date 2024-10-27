@@ -22,7 +22,7 @@ void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int
             if (x == playerPos.x && y == playerPos.y)
             {
                 SetConsoleTextAttribute(stdHandle, 0x04); // sets color for next print to console
-                cout << '#';
+                cout << '0';
                 SetConsoleTextAttribute(stdHandle, 0x0F); // returns to normal
             }
             else if (x == pointPos.x && y == pointPos.y)

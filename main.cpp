@@ -5,6 +5,7 @@
 #include <ctime>
 
 #include "includes/Vec2d.h"
+#include "includes/player_obj.h"
 #include "includes/sceneControl.cpp"
 
 using namespace std;
@@ -21,6 +22,9 @@ int main()
     ci.bVisible = false;
     SetConsoleCursorInfo(stdHandle, &ci);
 
+    player_obj player = player_obj();
+    player.setPos({1,1});
+
     int moveDist = 1; // how far each move lets you go
 
     struct Vec2d pointCurPos = {10, 10};
@@ -28,11 +32,9 @@ int main()
     struct Vec2d minPos = {1, 1};
     struct Vec2d maxPos = {40, 20};
 
-    struct Vec2d playerPos = {1, 1};
-
     int score = 0;
 
-    printScene(minPos, maxPos, playerPos, pointCurPos, score, stdHandle); // display the first scene
+    printScene(minPos, maxPos, player.getPos(), pointCurPos, score, stdHandle); // display the first scene
 
     while (isRunning) // game loop
     {
@@ -41,29 +43,18 @@ int main()
             continue;
         }
 
-        for (int i = 1; i < 5; i++) // key input for all the arrow keys
-        {
-            if (GetAsyncKeyState(i+36) & 0b1)
-            {
-                switch (i) // switch is faster than if statment
-                {
-                case 1: // left
-                    playerPos.x = max(playerPos.x - moveDist, minPos.x);
-                    break;
-                case 2: // up
-                    playerPos.y = max(playerPos.y - moveDist, minPos.y);
-                    break;
-                case 3: // right
-                    playerPos.x = min(playerPos.x + moveDist, maxPos.x);
-                    break;
-                case 4: // down
-                    playerPos.y = min(playerPos.y + moveDist, maxPos.y);
-                    break;
-                default:
-                    break;
-                }
+        player.updateInput();
 
-                if ( playerPos.x == pointCurPos.x && playerPos.y == pointCurPos.y )
+        if (player.posChanged())
+        {   
+            // bound collision
+            Vec2d nextPos = player.getNextPos();
+
+            if ((nextPos.x >= minPos.x && nextPos.x <= maxPos.x) && ((nextPos.y >= minPos.y && nextPos.y <= maxPos.y)))
+            {
+                player.move(); // makes the player actually move
+
+                if ( player.getPos() == pointCurPos )
                 {
                     score += 1;
                     
@@ -71,7 +62,7 @@ int main()
                     pointCurPos.y = minPos.y + rand() % (maxPos.y - minPos.y + 1);
                 }
 
-                printScene(minPos, maxPos, playerPos, pointCurPos, score, stdHandle);
+                printScene(minPos, maxPos, player.getPos(), pointCurPos, score, stdHandle);
             }
         }
 
