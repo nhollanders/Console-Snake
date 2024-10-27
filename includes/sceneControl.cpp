@@ -65,7 +65,7 @@ void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int
         cout << '-';
     }
     cout << '+' << endl;
-    cout << "[ " << playerPos.x << " : " << playerPos.y << " ]" << endl;
+    cout << "[ " << playerPos.x << " : " << playerPos.y << " ]    " << endl;
     cout << "[ Score: " << score << "]" << endl;
 }
 
