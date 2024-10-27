@@ -9,6 +9,8 @@ class player_obj {
     private:
         Vec2d playerPos; // cur pos
         Vec2d nextPos; // next pos
+
+        int moveDist; // how far each move goes
     public:
         player_obj();
         ~player_obj();
