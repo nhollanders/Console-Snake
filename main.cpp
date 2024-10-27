@@ -6,7 +6,7 @@
 
 #include "includes/Vec2d.h"
 #include "includes/player_obj.h"
-#include "includes/sceneControl.cpp"
+#include "includes/sceneControl.h"
 
 using namespace std;
 

@@ -3,8 +3,6 @@
 
 #include "Vec2d.h"
 
-using namespace std;
-
 class player_obj {
     private:
         Vec2d playerPos; // cur pos

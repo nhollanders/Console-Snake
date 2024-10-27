@@ -1,5 +1,7 @@
 #include <iostream>
 #include <windows.h>
+
+#include "sceneControl.h"
 #include "Vec2d.h"
 
 using namespace std;
