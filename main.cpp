@@ -62,7 +62,7 @@ int main()
                     pointCurPos.y = minPos.y + rand() % (maxPos.y - minPos.y + 1);
                 }
 
-                printScene(minPos, maxPos, player.getPos(), pointCurPos, score, stdHandle);
+                printScene(minPos, maxPos, player.getPos(), pointCurPos, score, stdHandle);      
             }
         }
 

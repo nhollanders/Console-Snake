@@ -1,10 +1,27 @@
 #include <iostream>
 #include <windows.h>
+#include <string>
 
 #include "sceneControl.h"
 #include "Vec2d.h"
 
 using namespace std;
+
+string getLastErrorAsString()
+{
+    DWORD err = GetLastError();
+
+    if (!err) { return ""; } // no error
+
+    char *message = 0;
+
+    size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+        0, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (char *)&message, 0, nullptr);
+
+    string rez(message, size);
+
+    LocalFree(message);
+}
 
 void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int score, HANDLE stdHandle) // prints the scene depending on positions of game elements.
 {
