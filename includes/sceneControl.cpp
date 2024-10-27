@@ -21,6 +21,8 @@ string getLastErrorAsString()
     string rez(message, size);
 
     LocalFree(message);
+
+    return rez;
 }
 
 void printScene(Vec2d minPos, Vec2d maxPos, Vec2d playerPos, Vec2d pointPos, int score, HANDLE stdHandle) // prints the scene depending on positions of game elements.
