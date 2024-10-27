@@ -1,7 +1,6 @@
 #include <iostream>
 #include <windows.h>
 #include <cstdio>
-#include <vector>
 #include <random>
 #include <ctime>
 
